@@ -21,14 +21,19 @@ function Form() {
     const newContact = {
       id: nanoid(),
       contactName,
-      contactNumber
+      contactNumber,
     };
-
-    contacts.find(({ name }) => name.toLowerCase() === contactName.toLowerCase())
-
-      ? Notify.warning(`${contactName} is already in contacts`)
-      : dispatch(addNewContacts(newContact));
+    if (
+      !contacts.length ||
+      !contacts.some(contact => contact.name === contactName)
+    ) {
+      form.reset();
+      dispatch(addNewContacts(newContact));
+    } else {
+      Notify.warning(`${contactName} is already in contacts`);
+    }
   };
+
   return (
     <FormContainer onSubmit={handleSubmit} autoComplete="off">
       <div>
@@ -37,6 +42,7 @@ function Form() {
           <Input
             type="text"
             name="name"
+            value={contacts.name}
             placeholder="Enter name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
@@ -48,6 +54,7 @@ function Form() {
           <Input
             type="tel"
             name="number"
+            value={contacts.number}
             placeholder="Enter number 000-00-00"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
@@ -55,7 +62,7 @@ function Form() {
           />
         </Label>
       </div>
-      <Button >Add new contact</Button>
+      <Button>Add new contact</Button>
     </FormContainer>
   );
 }

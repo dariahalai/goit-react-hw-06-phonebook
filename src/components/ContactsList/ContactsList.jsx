@@ -8,14 +8,14 @@ const ContactsList = () => {
   const visibleContacts =
     [
       ...contacts.filter(contact =>
-        contact.name.toLowerCase().includes(filter)
+        contact.contactName.toLowerCase().includes(filter)
       ),
     ] || [];
 
   return (
     <ul>
-      {visibleContacts.map(({ id, name, number }) => (
-        <ContactsListItem key={id} id={id} name={name} number={number} />
+      {visibleContacts.map(({ id, contactName, contactNumber }) => (
+        <ContactsListItem key={id} id={id} name={contactName} number={contactNumber} />
       ))}
     </ul>
   );

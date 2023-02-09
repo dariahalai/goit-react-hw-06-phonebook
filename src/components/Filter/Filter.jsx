@@ -8,7 +8,8 @@ const Filter = () => {
   const filter = useSelector(selectFilter);
 
   const changeFilter = e => {
-    const normalizedFilter = filter.toLowerCase().trim();
+    const target = e.target.value;
+    const normalizedFilter = target.toLowerCase().trim();
     dispatch(filterContacts(normalizedFilter));
   };
 
@@ -18,6 +19,7 @@ const Filter = () => {
       <Input
         type="text"
         name="filter"
+        value={filter}
         onChange={changeFilter}
         placeholder="Enter name"
       />
